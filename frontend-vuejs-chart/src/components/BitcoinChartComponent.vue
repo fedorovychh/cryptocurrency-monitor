@@ -111,6 +111,12 @@
     days.length = 0
   }
 
+  function checkCorrectDates(startDate, endDate) {
+    if (new Date(startDate) > new Date(endDate)) {
+      throw new Error("Start date should be equal or less then end date!");
+    }
+  }
+
   function addDays(date) {
     const newDate = new Date(date.setDate(date.getDate() + 1));
     return newDate.toISOString().slice(0, 10);
@@ -153,6 +159,7 @@
   async function update() {
     const inputStartDate = document.getElementById('startDate');
     const inputEndDate = document.getElementById('endDate');
+    checkCorrectDates(inputStartDate, inputEndDate);
     const fetchedData = await getData(inputStartDate.value, inputEndDate.value);
 
     clearData();
