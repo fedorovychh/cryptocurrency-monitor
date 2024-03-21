@@ -70,6 +70,7 @@
 <script setup>
   import Chart from 'chart.js/auto'
   import { onMounted } from 'vue';
+  import moment from 'moment';
 
   const getData = async (inputStartDate, inputEndDate) => {
     const baseUrl = `http://localhost:8080/api/results?startDate=${inputStartDate}&endDate=${inputEndDate}`;
@@ -109,12 +110,6 @@
   function clearData() {
     prices.length = 0
     days.length = 0
-  }
-
-  function checkCorrectDates(startDate, endDate) {
-    if (new Date(startDate) > new Date(endDate)) {
-      throw new Error("Start date should be equal or less then end date!");
-    }
   }
 
   function addDays(date) {
@@ -159,7 +154,10 @@
   async function update() {
     const inputStartDate = document.getElementById('startDate');
     const inputEndDate = document.getElementById('endDate');
-    checkCorrectDates(inputStartDate, inputEndDate);
+    if (moment(inputStartDate.value).isAfter(moment(inputEndDate.value))) {
+      alert("Please, specify correct dates!");
+      return;
+    }
     const fetchedData = await getData(inputStartDate.value, inputEndDate.value);
 
     clearData();
