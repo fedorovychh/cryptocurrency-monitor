@@ -70,6 +70,7 @@
 <script setup>
   import Chart from 'chart.js/auto'
   import { onMounted } from 'vue';
+  import moment from 'moment';
 
   const getData = async (inputStartDate, inputEndDate) => {
     const baseUrl = `http://localhost:8080/api/results?startDate=${inputStartDate}&endDate=${inputEndDate}`;
@@ -153,6 +154,10 @@
   async function update() {
     const inputStartDate = document.getElementById('startDate');
     const inputEndDate = document.getElementById('endDate');
+    if (moment(inputStartDate.value).isAfter(moment(inputEndDate.value))) {
+      alert("Please, specify correct dates!");
+      return;
+    }
     const fetchedData = await getData(inputStartDate.value, inputEndDate.value);
 
     clearData();

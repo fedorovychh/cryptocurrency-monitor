@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/results")
+@CrossOrigin(origins = {
+        "http://localhost:8081",
+        "http://192.168.0.149:8081"
+})
 public class CurrencyController {
     private final ResultService resultService;
 
     @GetMapping
-    @CrossOrigin(origins = {
-            "http://localhost:8081",
-            "http://192.168.0.149:8081"
-    })
     public List<ResultResponseDto> findAllByDates(
             @RequestParam LocalDate startDate,
             @RequestParam LocalDate endDate
